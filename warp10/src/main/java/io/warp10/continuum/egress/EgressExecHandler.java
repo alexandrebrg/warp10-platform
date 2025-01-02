@@ -56,6 +56,8 @@ import io.warp10.continuum.store.DirectoryClient;
 import io.warp10.continuum.store.StoreClient;
 import io.warp10.continuum.thrift.data.LoggingEvent;
 import io.warp10.crypto.KeyStore;
+import io.warp10.fdb.FDBPool;
+import io.warp10.fdb.FDBStoreClient;
 import io.warp10.script.MemoryWarpScriptStack;
 import io.warp10.script.StackUtils;
 import io.warp10.script.WarpScriptException;
@@ -621,6 +623,16 @@ public class EgressExecHandler extends AbstractHandler {
       //
 
       Sensision.set(SensisionConstants.SENSISION_CLASS_WARPSCRIPT_JVM_FREEMEMORY, Sensision.EMPTY_LABELS, Runtime.getRuntime().freeMemory());
+
+      //
+      // Record FoundationDB current network thread busyness
+      //
+
+      if (storeClient instanceof FDBStoreClient) {
+        FDBStoreClient fsc = (FDBStoreClient) storeClient;
+        FDBPool pool = fsc.getPool();
+        Sensision.set(SensisionConstants.SENSISION_CLASS_WARPSCRIPT_FDB_BUSYNESS, Sensision.EMPTY_LABELS, pool.getDatabase().getMainThreadBusyness());
+      }
 
       LoggingEvent event = LogUtil.setLoggingEventAttribute(null, LogUtil.WARPSCRIPT_SCRIPT, scriptSB.toString());
 

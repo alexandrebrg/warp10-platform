@@ -870,6 +870,11 @@ public class SensisionConstants {
   public static final String SENSISION_CLASS_WARPSCRIPT_JVM_FREEMEMORY = "warp.script.jvm.freememory";
 
   /**
+   * Saturation of FoundationDB network threads
+   */
+  public static final String SENSISION_CLASS_WARPSCRIPT_FDB_BUSYNESS = "warp.script.fdb.busyness";
+
+  /**
    * Number of uses of a given WarpScript function
    */
   public static final String SENSISION_CLASS_WARPSCRIPT_FUNCTION_COUNT = "warp.script.function.count";
